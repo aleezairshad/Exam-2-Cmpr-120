@@ -11,11 +11,18 @@
 #include <vector>
 #include <cctype>
 #include <cstdlib>
+#include <random>
 using namespace std;
+
+// Shared by every volume and surface-area function.
+// A constant inside main cannot be seen by those functions.
+const double PI = 3.14159;
 
 //Prototypes
 double getSphereVolume(double radius);
 double getSphereSurfaceArea(double radius);
+double getTetrahedronVolume(double side);
+double getTetrahedronSurfaceArea(double side);
 
 // Display the main menu
 void displayMenu();
@@ -23,6 +30,8 @@ void displayMenu();
 
 int main()
 {
+    cout << scientific;
+
     char option;
     vector<double> spheres;
     vector<double> tetrahedrons;
@@ -36,9 +45,7 @@ int main()
         system("cls");
         displayMenu();
      
-        cin >> option;
-
-        option = toupper(option);
+        option = inputChar("\tOption: ", string("STHODI123Qsthodiq"));
 
         switch (option)
         {
@@ -47,51 +54,112 @@ int main()
             system("cls");
             //Sphere Art
             cout << "\n";
-            cout << "        * * * \n";
-            cout << "     *       ....*\n";
-            cout << "   *           ....*\n";
-            cout << "  *             ....*\n";
-            cout << "  *       1-S   ....*\n";
-            cout << "  *             ....*\n";
-            cout << "   *           ....*\n";
-            cout << "     *       ....*\n";
-            cout << "        * * * \n\n";
+            cout << "\t\t * * * \n";
+            cout << "\t     *      ....*\n";
+            cout << "\t   *          ....*\n";
+            cout << "\t  *            ....*\n";
+            cout << "\t  *       1-S  ....*\n";
+            cout << "\t  *            ....*\n";
+            cout << "\t   *          ....*\n";
+            cout << "\t     *      ....*\n";
+            cout << "\t\t * * * \n\n";
 
 			//instructions for Sphere
-            cout << "S. Sphere - a perfectly round, three-dimensional geometric shape where every point\n";
-            cout << "   on its surface is exactly the same distance from its center\n";
-            cout << "------------------------------------------------------------------------------------------\n\n";
+            cout << "\tS. Sphere - a perfectly round, three-dimensional geometric shape where every point\n";
+            cout << "\t   on its surface is exactly the same distance from its center\n";
+            cout << "\t--------------------------------------------------------------------------------\n\n";
 
-            // 3. Ask for Random or Interactive using input.h!
-            char choice = inputChar("Specify an input choice  (R-random or I-Interactive) : ", "RI");
+            //Random or Interactive using input.h
+            char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
 
-            //Input vs Random
+            //Interactive vs Random
             if (choice == 'I')
             {
-                // Input
-                double radius = inputDouble("Specify a radius of the Sphere : ", true);
+                // Interactive
+                double radius = inputDouble("\n\tSpecify a radius of the Sphere : ", true);
 
                 double volume = getSphereVolume(radius);
                 double surfaceArea = getSphereSurfaceArea(radius);
 
-                cout << "surface area (S) : " << surfaceArea << "\n";
-                cout << "volume       (V) : " << volume << "\n\n";
+				cout << "\n\tradius       (r) : " << radius << "\n";
+                cout << "\tsurface area (S) : " << surfaceArea << "\n";
+                cout << "\tvolume       (V) : " << volume << "\n\n";
 
                 spheres.push_back(radius); // Save to vector
             }
             else if (choice == 'R')
             {
-                // Random
-                cout << "\nRandom generation coming soon!\n";
+                // One random radius, then the same three measurements as the sample
+                random_device randomGenerator;
+                uniform_real_distribution<double> randomRadius(0.1, 50.0);
+
+                double radius = randomRadius(randomGenerator);
+                double volume = getSphereVolume(radius);
+                double surfaceArea = getSphereSurfaceArea(radius);
+
+                cout << "\n";
+                cout << "\tradius       (r) : " << radius << "\n";
+                cout << "\tsurface area (S) : " << surfaceArea << "\n";
+                cout << "\tvolume       (V) : " << volume << "\n\n";
+
+                spheres.push_back(radius);
             }
 
-            system("pause"); //Read the results before returning to the main menu
+            system("pause"); //pause to read the results before returning to the main menu
             break;
         }
 
         case 'T':
-            cout << "\nTetrahedron selected.\n";
+        {
+            system("cls");
+            cout << "\n";
+            cout << "\t\t  *\n";
+            cout << "\t\t *.*\n";
+            cout << "\t       *  ...*\n";
+            cout << "\t      *   ....*\n";
+            cout << "\t    *    4-T....*\n";
+            cout << "\t   *      +  ....*\n";
+            cout << "\t *    ++++++++++...*\n";
+            cout << "\t*+++++++++++++++++++*\n\n";
+
+            cout << "\tT. Tetrahedron - four triangular faces platonic object\n";
+            cout << "\t--------------------------------------------------------------------------------\n\n";
+
+            char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
+
+            if (choice == 'I')
+            {
+                double edgeLength = inputDouble("\n\tSpecify an edge length of the Tetrahedron : ", true);
+
+                double volume = getTetrahedronVolume(edgeLength);
+                double surfaceArea = getTetrahedronSurfaceArea(edgeLength);
+
+                cout << "\n\tedge length  (l) : " << edgeLength << "\n";
+                cout << "\tsurface area (S) : " << surfaceArea << "\n";
+                cout << "\tvolume       (V) : " << volume << "\n\n";
+
+                tetrahedrons.push_back(edgeLength);
+            }
+            else if (choice == 'R')
+            {
+                random_device randomGenerator;
+                uniform_real_distribution<double> randomSide(0.1, 50.0);
+
+                double edgeLength = randomSide(randomGenerator);
+                double volume = getTetrahedronVolume(edgeLength);
+                double surfaceArea = getTetrahedronSurfaceArea(edgeLength);
+
+                cout << "\n";
+                cout << "\tedge length  (l) : " << edgeLength << "\n";
+                cout << "\tsurface area (S) : " << surfaceArea << "\n";
+                cout << "\tvolume       (V) : " << volume << "\n\n";
+
+                tetrahedrons.push_back(edgeLength);
+            }
+
+            system("pause");
             break;
+        }
 
         case 'H':
             cout << "\nHexahedron selected.\n";
@@ -122,8 +190,7 @@ int main()
             break;
 
         case 'Q':
-            cout << "\nGoodbye!\n";
-            break;
+            exit(0);
 
         default:
             cout << "\nInvalid option. Please try again.\n";
@@ -179,17 +246,24 @@ void displayMenu()
         cout << "------------------------------------------------------------------------------------------\n";
         cout << "        Q. quit\n";
         cout << "==========================================================================================\n";
-        cout << "        Option: ";
 }
 
 double getSphereVolume(double radius)
 {
-    const double PI = 3.14159;
     return (4.0 / 3.0) * PI * pow(radius, 3.0);
 }
 
 double getSphereSurfaceArea(double radius)
 {
-    const double PI = 3.14159;
     return 4.0 * PI * pow(radius, 2.0);
+}
+
+double getTetrahedronVolume(double side)
+{
+    return pow(side, 3.0) * sqrt(3.0) / 12.0;
+}
+
+double getTetrahedronSurfaceArea(double side)
+{
+    return sqrt(3.0) * pow(side, 2.0);
 }
