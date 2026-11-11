@@ -32,6 +32,9 @@ double getIcosahedronVolume(double side);
 double getIcosahedronSurfaceArea(double side);
 void sortAscending(vector<double>& values);
 void outputSortedShape(char destination, string fileName, char shape, vector<double> data);
+void checkShapeExtremes(vector<double> data, char shape, string name, bool& found,
+    double& smallestVolume, int& smallestIndex, string& smallestName,
+    double& largestVolume, int& largestIndex, string& largestName);
 
 // Display the main menu
 void displayMenu();
@@ -42,6 +45,8 @@ int main()
     cout << scientific;
 
     char option;
+
+    // Shape vectors
     vector<double> spheres;
     vector<double> tetrahedrons;
     vector<double> hexahedrons;
@@ -54,7 +59,7 @@ int main()
         system("cls");
         displayMenu();
      
-        option = inputChar("\tOption: ", string("STHODI123Qsthodiq"));
+        option = inputChar("\t\tOption: ", string("STHODI123Qsthodiq"));
 
         switch (option)
         {
@@ -76,7 +81,7 @@ int main()
 			//instructions for Sphere
             cout << "\tS. Sphere - a perfectly round, three-dimensional geometric shape where every point\n";
             cout << "\t   on its surface is exactly the same distance from its center\n";
-            cout << "\t--------------------------------------------------------------------------------\n\n";
+            cout << "\t" << string(80, char(196)) << "\n\n";
 
             //Random or Interactive using input.h
             char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
@@ -121,6 +126,7 @@ int main()
         case 'T':
         {
             system("cls");
+            //Tetrahedron Art
             cout << "\n";
             cout << "\t\t  *\n";
             cout << "\t\t *.*\n";
@@ -131,13 +137,17 @@ int main()
             cout << "\t *    ++++++++++...*\n";
             cout << "\t*+++++++++++++++++++*\n\n";
 
+            //instructions for Tetrahedron
             cout << "\tT. Tetrahedron - four triangular faces platonic object\n";
-            cout << "\t--------------------------------------------------------------------------------\n\n";
+            cout << "\t" << string(80, char(196)) << "\n\n";
 
+            //Random or Interactive using input.h
             char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
 
+            //Interactive vs Random
             if (choice == 'I')
             {
+                // Interactive
                 double edgeLength = inputDouble("\n\tSpecify an edge length of the Tetrahedron : ", true);
 
                 double volume = getTetrahedronVolume(edgeLength);
@@ -147,10 +157,11 @@ int main()
                 cout << "\tsurface area (S) : " << surfaceArea << "\n";
                 cout << "\tvolume       (V) : " << volume << "\n\n";
 
-                tetrahedrons.push_back(edgeLength);
+                tetrahedrons.push_back(edgeLength); // Save to vector
             }
             else if (choice == 'R')
             {
+                // One random edge length, then the same three measurements as the sample
                 random_device randomGenerator;
                 uniform_real_distribution<double> randomSide(0.1, 50.0);
 
@@ -166,13 +177,14 @@ int main()
                 tetrahedrons.push_back(edgeLength);
             }
 
-            system("pause");
+            system("pause"); //pause to read the results before returning to the main menu
             break;
         }
 
         case 'H':
         {
             system("cls");
+            //Hexahedron Art
             cout << "\n";
             cout << "\t  *.*.*.*.*.*.*\n";
             cout << "\t*.*.*.*.*.*.***\n";
@@ -183,13 +195,17 @@ int main()
             cout << "\t*          .***\n";
             cout << "\t*`*`*`*`*`*`*\n\n";
 
+            //instructions for Hexahedron
             cout << "\tH. Hexahedron - six square faces platonic object\n";
-            cout << "\t--------------------------------------------------------------------------------\n\n";
+            cout << "\t" << string(80, char(196)) << "\n\n";
 
+            //Random or Interactive using input.h
             char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
 
+            //Interactive vs Random
             if (choice == 'I')
             {
+                // Interactive
                 double edgeLength = inputDouble("\n\tSpecify an edge length of the Hexahedron : ", true);
 
                 double volume = getHexahedronVolume(edgeLength);
@@ -199,10 +215,11 @@ int main()
                 cout << "\tsurface area (S) : " << surfaceArea << "\n";
                 cout << "\tvolume       (V) : " << volume << "\n\n";
 
-                hexahedrons.push_back(edgeLength);
+                hexahedrons.push_back(edgeLength); // Save to vector
             }
             else if (choice == 'R')
             {
+                // One random edge length, then the same three measurements as the sample
                 random_device randomGenerator;
                 uniform_real_distribution<double> randomSide(0.1, 50.0);
 
@@ -218,13 +235,14 @@ int main()
                 hexahedrons.push_back(edgeLength);
             }
 
-            system("pause");
+            system("pause"); //pause to read the results before returning to the main menu
             break;
         }
 
         case 'O':
         {
             system("cls");
+            //Octahedron Art
             cout << "\n";
             cout << "\t       * *.*\n";
             cout << "\t    *       *...*\n";
@@ -236,13 +254,17 @@ int main()
             cout << "\t    *   *.*....*\n";
             cout << "\t       * *.*\n\n";
 
+            //instructions for Octahedron
             cout << "\tO. Octahedron - eight triangular faces platonic object\n";
-            cout << "\t--------------------------------------------------------------------------------\n\n";
+            cout << "\t" << string(80, char(196)) << "\n\n";
 
+            //Random or Interactive using input.h
             char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
 
+            //Interactive vs Random
             if (choice == 'I')
             {
+                // Interactive
                 double edgeLength = inputDouble("\n\tSpecify an edge length of the Octahedron : ", true);
 
                 double volume = getOctahedronVolume(edgeLength);
@@ -252,10 +274,11 @@ int main()
                 cout << "\tsurface area (S) : " << surfaceArea << "\n";
                 cout << "\tvolume       (V) : " << volume << "\n\n";
 
-                octahedrons.push_back(edgeLength);
+                octahedrons.push_back(edgeLength); // Save to vector
             }
             else if (choice == 'R')
             {
+                // One random edge length, then the same three measurements as the sample
                 random_device randomGenerator;
                 uniform_real_distribution<double> randomSide(0.1, 50.0);
 
@@ -271,13 +294,14 @@ int main()
                 octahedrons.push_back(edgeLength);
             }
 
-            system("pause");
+            system("pause"); //pause to read the results before returning to the main menu
             break;
         }
 
         case 'D':
         {
             system("cls");
+            //Dodecahedron Art
             cout << "\n";
             cout << "\t      * *.*\n";
             cout << "\t   *    ...*...*\n";
@@ -289,13 +313,17 @@ int main()
             cout << "\t   *   *.....**.\n";
             cout << "\t      * *.*\n\n";
 
+            //instructions for Dodecahedron
             cout << "\tD. Dodecahedron - twelve pentagonal faces platonic object\n";
-            cout << "\t--------------------------------------------------------------------------------\n\n";
+            cout << "\t" << string(80, char(196)) << "\n\n";
 
+            //Random or Interactive using input.h
             char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
 
+            //Interactive vs Random
             if (choice == 'I')
             {
+                // Interactive
                 double edgeLength = inputDouble("\n\tSpecify an edge length of the Dodecahedron : ", true);
 
                 double volume = getDodecahedronVolume(edgeLength);
@@ -305,10 +333,11 @@ int main()
                 cout << "\tsurface area (S) : " << surfaceArea << "\n";
                 cout << "\tvolume       (V) : " << volume << "\n\n";
 
-                dodecahedrons.push_back(edgeLength);
+                dodecahedrons.push_back(edgeLength); // Save to vector
             }
             else if (choice == 'R')
             {
+                // One random edge length, then the same three measurements as the sample
                 random_device randomGenerator;
                 uniform_real_distribution<double> randomSide(0.1, 50.0);
 
@@ -324,13 +353,14 @@ int main()
                 dodecahedrons.push_back(edgeLength);
             }
 
-            system("pause");
+            system("pause"); //pause to read the results before returning to the main menu
             break;
         }
 
         case 'I':
         {
             system("cls");
+            //Icosahedron Art
             cout << "\n";
             cout << "\t      * * *\n";
             cout << "\t   *    .*.*.**\n";
@@ -342,13 +372,17 @@ int main()
             cout << "\t   *     *******\n";
             cout << "\t       *.*.*\n\n";
 
+            //instructions for Icosahedron
             cout << "\tI. Icosahedron - twenty triangular faces platonic object\n";
-            cout << "\t--------------------------------------------------------------------------------\n\n";
+            cout << "\t" << string(80, char(196)) << "\n\n";
 
+            //Random or Interactive using input.h
             char choice = inputChar("\tSpecify an input choice  (R-random or I-Interactive) : ", string("RIri"));
 
+            //Interactive vs Random
             if (choice == 'I')
             {
+                // Interactive
                 double edgeLength = inputDouble("\n\tSpecify an edge length of the Icosahedron : ", true);
 
                 double volume = getIcosahedronVolume(edgeLength);
@@ -358,10 +392,11 @@ int main()
                 cout << "\tsurface area (S) : " << surfaceArea << "\n";
                 cout << "\tvolume       (V) : " << volume << "\n\n";
 
-                icosahedrons.push_back(edgeLength);
+                icosahedrons.push_back(edgeLength); // Save to vector
             }
             else if (choice == 'R')
             {
+                // One random edge length, then the same three measurements as the sample
                 random_device randomGenerator;
                 uniform_real_distribution<double> randomSide(0.1, 50.0);
 
@@ -377,17 +412,19 @@ int main()
                 icosahedrons.push_back(edgeLength);
             }
 
-            system("pause");
+            system("pause"); //pause to read the results before returning to the main menu
             break;
         }
 
         case '1':
         {
+            // Read data from a text file
             string fileName = inputString("\n\tSpecify the data text file: ", false);
 
             ifstream inFile;
             inFile.open(fileName);
 
+            // File was not found
             if (!inFile)
             {
                 cout << "\n\tERROR: File cannot be found.\n\n\n";
@@ -395,6 +432,7 @@ int main()
                 break;
             }
 
+            // Clear the old data
             spheres.clear();
             tetrahedrons.clear();
             hexahedrons.clear();
@@ -406,6 +444,7 @@ int main()
             double measurement;
             int count = 0;
 
+            // Store each shape into its vector
             while (inFile >> shape >> measurement)
             {
                 shape = toupper(shape);
@@ -439,7 +478,7 @@ int main()
                 }
             }
 
-            inFile.close();
+            inFile.close(); // Close the file
 
             cout << "\n\tCONFIRMATION: Completed reading " << count
                  << " data from text file and storing into assigned vectors.\n\n";
@@ -450,28 +489,32 @@ int main()
 
         case '2':
         {
+            // View one sorted shape
             char shapeOption;
 
             do
             {
+                // Shape menu
                 system("cls");
                 cout << "\n\tOption to view ALL data from a specific vector\n";
-                cout << "\t" << string(60, '=') << "\n";
+                cout << "\t" << string(60, char(205)) << "\n";
                 cout << "\tS - Sphere\n";
                 cout << "\tT - Tetrahedron\n";
                 cout << "\tH - Hexahedron\n";
                 cout << "\tO - Octahedron\n";
                 cout << "\tD - Dodecahedron\n";
                 cout << "\tI - Icosahedron\n";
-                cout << "\t" << string(60, '-') << "\n";
+                cout << "\t" << string(60, char(196)) << "\n";
                 cout << "\tR - return\n";
-                cout << "\t" << string(60, '-') << "\n";
+                cout << "\t" << string(60, char(196)) << "\n";
 
                 shapeOption = inputChar("\tSelect an option : ", string("STHODIR"));
 
+                // Return to the main menu
                 if (shapeOption == 'R')
                     break;
 
+                // Copy the chosen vector
                 vector<double> data;
                 if (shapeOption == 'S')
                     data = spheres;
@@ -486,8 +529,10 @@ int main()
                 else if (shapeOption == 'I')
                     data = icosahedrons;
 
+                // Console or file
                 char destination = inputChar("\n\tOutput to (C-console or F-file) : ", string("CF"));
 
+                // Nothing stored for that shape
                 if (data.size() == 0)
                 {
                     cout << "\nNo data stored for that shape.\n\n\n";
@@ -495,11 +540,13 @@ int main()
                     continue;
                 }
 
+                // Print to the console
                 if (destination == 'C')
                 {
                     outputSortedShape('C', "", shapeOption, data);
                     cout << "\n";
                 }
+                // Write to a file
                 else
                 {
                     string fileName = inputString("Specify the output file name: ", false);
@@ -514,11 +561,42 @@ int main()
 
 
         case '3':
-            cout << "\nFind smallest and largest shapes selected.\n";
+        {
+            // Find the smallest and largest volume
+            bool found = false;
+            double smallestVolume = 0;
+            double largestVolume = 0;
+            int smallestIndex = 0;
+            int largestIndex = 0;
+            string smallestName = "";
+            string largestName = "";
+
+            // Compare every shape
+            checkShapeExtremes(spheres, 'S', "Sphere", found, smallestVolume, smallestIndex, smallestName, largestVolume, largestIndex, largestName);
+            checkShapeExtremes(tetrahedrons, 'T', "Tetrahedron", found, smallestVolume, smallestIndex, smallestName, largestVolume, largestIndex, largestName);
+            checkShapeExtremes(hexahedrons, 'H', "Hexahedron", found, smallestVolume, smallestIndex, smallestName, largestVolume, largestIndex, largestName);
+            checkShapeExtremes(octahedrons, 'O', "Octahedron", found, smallestVolume, smallestIndex, smallestName, largestVolume, largestIndex, largestName);
+            checkShapeExtremes(dodecahedrons, 'D', "Dodecahedron", found, smallestVolume, smallestIndex, smallestName, largestVolume, largestIndex, largestName);
+            checkShapeExtremes(icosahedrons, 'I', "Icosahedron", found, smallestVolume, smallestIndex, smallestName, largestVolume, largestIndex, largestName);
+
+            // Print the results
+            if (!found)
+            {
+                cout << "\n\tNo shape data stored.\n\n";
+            }
+            else
+            {
+                cout << "\n\tFinding Results:\n";
+                cout << "\n\t\t- Smallest shape: " << smallestName << " with volume (" << smallestVolume << ") at index[" << smallestIndex << "].\n";
+                cout << "\n\t\t+ Largest shape: " << largestName << " with volume (" << largestVolume << ") at index[" << largestIndex << "].\n\n";
+            }
+
+            system("pause");
             break;
+        }
 
         case 'Q':
-            exit(0);
+            exit(0); // Quit the program
 
         default:
             cout << "\nInvalid option. Please try again.\n";
@@ -533,49 +611,51 @@ int main()
 void displayMenu()
 {
         cout << "\n\n";
-        cout << "\t\t       * * *                       *                  *.*.*.*.*.*.*\n";
-        cout << "\t\t    *      ....*                  *.*               *.*.*.*.*.*.***\n";
-        cout << "\t\t  *          ....*              *  ...*             *          .***\n";
-        cout << "\t\t *            ....*            *   ....*            *          .***\n";
+        cout << "\t\t       * * *    \t\t   *    \t      *.*.*.*.*.*.*\n";
+        cout << "\t\t    *      ....*\t\t  *.*   \t    *.*.*.*.*.*.***\n";
+        cout << "\t\t  *          ....*      \t*  ...* \t    *          .***\n";
+        cout << "\t\t *            ....*            *   ....*\t    *          .***\n";
         cout << "\t\t *       1-S  ....*          *    4-T....*          *    6-H   .***\n";
         cout << "\t\t *            ....*         *      +  ....*         *          .***\n";
         cout << "\t\t  *          ....*        *    ++++++++++...*       *          .***\n";
-        cout << "\t\t    *       ...*         *+++++++++++++++++++*      *`*`*`*`*`*`*\n";
+        cout << "\t\t    *       ...*\t *+++++++++++++++++++*      *`*`*`*`*`*`*\n";
         cout << "\t\t       * * *\n";
-        cout << "\t\t      Sphere                  Tetrahedron             Hexahedron\n\n";
+        cout << "\t\t" << left << setw(6) << "" << setw(24) << "Sphere" << setw(24) << "Tetrahedron" << "Hexahedron\n\n";
 
-        cout << "\t\t       * *.*                    * *.*                    * * *\n";
+        cout << "\t\t       * *.*    \t\t* *.*   \t\t * * *\n";
         cout << "\t\t    *       *...*            *    ...*...*            *    .*.*.**\n";
         cout << "\t\t  *       ********         *     ***....*.*         *       .*.*.*.*\n";
         cout << "\t\t *       * *... *.*       *    *.....*.....*       *        ******* *\n";
         cout << "\t\t *     8-O.*.**...*       *    12-D..***...*       *     20-I*.*.*.**\n";
         cout << "\t\t *    *************       *    ...***.....**       *         ********\n";
         cout << "\t\t  *    *....*...**         *    *.....*...*         *      . .*.*.**\n";
-        cout << "\t\t    *   *.*....*             *   *.....**.            *     *******\n";
-        cout << "\t\t       * *.*                    * *.*                     *.*.*\n";
-        cout << "\t\t      Octahedron              Dodecahedron              Icosahedron\n\n";
+        cout << "\t\t    *   *.*....*\t     *   *.....**.            *     *******\n";
+        cout << "\t\t       * *.*    \t\t* *.*   \t\t  *.*.*\n";
+        cout << "\t\t" << setw(6) << "" << setw(24) << "Octahedron" << setw(26) << "Dodecahedron" << "Icosahedron\n\n";
+        cout << right;
 
-        cout << "\tCMPR120 Exam#2: functions and vectors By Christian Giron (10/26/26)\n";
-        cout << "\t==========================================================================================\n";
+        cout << "\tCMPR120 Exam#2: functions and vectors By Christian Giron (11/10/26)\n";
+        cout << "\t" << string(90, char(205)) << "\n";
 
         cout << "\t\tS. Sphere       - a perfectly round, geometric object defined as the set\n";
-        cout << "\t\t                  of all points in space that are exactly the same\n";
-        cout << "\t\t                  distance from a single fixed center point.\n";
+        cout << "\t\t\t\t  of all points in space that are exactly the same\n";
+        cout << "\t\t\t\t  distance from a single fixed center point.\n";
         cout << "\t\tT. Tetrahedron  - four triangular faces platonic object\n";
         cout << "\t\tH. Hexahedron   - six square faces platonic object\n";
         cout << "\t\tO. Octahedron   - eight triangular faces platonic object\n";
         cout << "\t\tD. Dodecahedron - twelve pentagonal faces platonic object\n";
         cout << "\t\tI. Icosahedron  - twenty triangular faces platonic object\n";
 
-        cout << "\t------------------------------------------------------------------------------------------\n";
-        cout << "\t        1. Read data from text file and store into appropriate shape vectors\n";
-        cout << "\t        2. Select and output data from a specific shape vector\n";
-        cout << "\t        3. Find the smallest and largest objects among the vectors\n";
-        cout << "\t------------------------------------------------------------------------------------------\n";
-        cout << "\t        Q. quit\n";
-        cout << "\t==========================================================================================\n";
+        cout << "\t" << string(90, char(196)) << "\n";
+        cout << "\t\t1. Read data from text file and store into appropriate shape vectors\n";
+        cout << "\t\t2. Select and output data from a specific shape vector\n";
+        cout << "\t\t3. Find the smallest and largest objects among the vectors\n";
+        cout << "\t" << string(90, char(196)) << "\n";
+        cout << "\t\tQ. quit\n";
+        cout << "\t" << string(90, char(205)) << "\n";
 }
 
+// Sphere
 double getSphereVolume(double radius)
 {
     return (4.0 / 3.0) * PI * pow(radius, 3.0);
@@ -586,6 +666,7 @@ double getSphereSurfaceArea(double radius)
     return 4.0 * PI * pow(radius, 2.0);
 }
 
+// Tetrahedron
 double getTetrahedronVolume(double side)
 {
     return pow(side, 3.0) * sqrt(3.0) / 12.0;
@@ -596,6 +677,7 @@ double getTetrahedronSurfaceArea(double side)
     return sqrt(3.0) * pow(side, 2.0);
 }
 
+// Hexahedron
 double getHexahedronVolume(double side)
 {
     return pow(side, 3.0);
@@ -606,6 +688,7 @@ double getHexahedronSurfaceArea(double side)
     return 6.0 * pow(side, 2.0);
 }
 
+// Octahedron
 double getOctahedronVolume(double side)
 {
     return sqrt(2.0) / 3.0 * pow(side, 3.0);
@@ -616,6 +699,7 @@ double getOctahedronSurfaceArea(double side)
     return 2.0 * sqrt(3.0) * pow(side, 2.0);
 }
 
+// Dodecahedron
 double getDodecahedronVolume(double side)
 {
     return (15.0 + 7.0 * sqrt(5.0)) / 4.0 * pow(side, 3.0);
@@ -626,6 +710,7 @@ double getDodecahedronSurfaceArea(double side)
     return 3.0 * sqrt(25.0 + 10.0 * sqrt(5.0)) * pow(side, 2.0);
 }
 
+// Icosahedron
 double getIcosahedronVolume(double side)
 {
     return 5.0 * (3.0 + sqrt(5.0)) / 12.0 * pow(side, 3.0);
@@ -636,22 +721,29 @@ double getIcosahedronSurfaceArea(double side)
     return 5.0 * sqrt(3.0) * pow(side, 2.0);
 }
 
+// Selection sort
 void sortAscending(vector<double>& values)
 {
-    for (int pass = 0; pass < static_cast<int>(values.size()); pass++)
+    for (int start = 0; start < static_cast<int>(values.size()) - 1; start++)
     {
-        for (int j = 0; j + 1 < static_cast<int>(values.size()); j++)
+        int minIndex = start;
+
+        for (int i = start + 1; i < static_cast<int>(values.size()); i++)
         {
-            if (values[j] > values[j + 1])
-            {
-                double temp = values[j];
-                values[j] = values[j + 1];
-                values[j + 1] = temp;
-            }
+            if (values[i] < values[minIndex])
+                minIndex = i;
+        }
+
+        if (minIndex != start)
+        {
+            double temp = values[start];
+            values[start] = values[minIndex];
+            values[minIndex] = temp;
         }
     }
 }
 
+// Surface area for one shape
 double surfaceAreaFor(char shape, double measurement)
 {
     switch (shape)
@@ -666,6 +758,7 @@ double surfaceAreaFor(char shape, double measurement)
     return 0;
 }
 
+// Volume for one shape
 double volumeFor(char shape, double measurement)
 {
     switch (shape)
@@ -680,6 +773,48 @@ double volumeFor(char shape, double measurement)
     return 0;
 }
 
+// Smallest and largest volume
+void checkShapeExtremes(vector<double> data, char shape, string name, bool& found,
+    double& smallestVolume, int& smallestIndex, string& smallestName,
+    double& largestVolume, int& largestIndex, string& largestName)
+{
+    if (data.size() == 0)
+        return;
+
+    sortAscending(data);
+
+    int last = static_cast<int>(data.size()) - 1;
+    double small = volumeFor(shape, data[0]);
+    double large = volumeFor(shape, data[last]);
+
+    if (!found)
+    {
+        found = true;
+        smallestVolume = small;
+        smallestIndex = 0;
+        smallestName = name;
+        largestVolume = large;
+        largestIndex = last;
+        largestName = name;
+    }
+    else
+    {
+        if (small < smallestVolume)
+        {
+            smallestVolume = small;
+            smallestIndex = 0;
+            smallestName = name;
+        }
+        if (large > largestVolume)
+        {
+            largestVolume = large;
+            largestIndex = last;
+            largestName = name;
+        }
+    }
+}
+
+// Print one sorted shape
 void outputSortedShape(char destination, string fileName, char shape, vector<double> data)
 {
     sortAscending(data);
@@ -706,10 +841,10 @@ void outputSortedShape(char destination, string fileName, char shape, vector<dou
             << setw(20) << measurementName
             << setw(20) << "surface area"
             << setw(20) << "volume" << "\n";
-        cout << "\t" << string(10, '-')
-            << setw(20) << string(19, '-')
-            << setw(20) << string(19, '-')
-            << setw(20) << string(19, '-') << "\n";
+        cout << "\t" << string(10, char(196))
+            << setw(20) << string(19, char(196))
+            << setw(20) << string(19, char(196))
+            << setw(20) << string(19, char(196)) << "\n";
 
         for (int i = 0; i < static_cast<int>(data.size()); i++)
         {
@@ -741,10 +876,10 @@ void outputSortedShape(char destination, string fileName, char shape, vector<dou
                 << setw(20) << measurementName
                 << setw(20) << "surface area"
                 << setw(20) << "volume" << "\n";
-            outFile << "\t" << string(10, '-')
-                << setw(20) << string(19, '-')
-                << setw(20) << string(19, '-')
-                << setw(20) << string(19, '-') << "\n";
+            outFile << "\t" << string(10, char(196))
+                << setw(20) << string(19, char(196))
+                << setw(20) << string(19, char(196))
+                << setw(20) << string(19, char(196)) << "\n";
 
             for (int i = 0; i < static_cast<int>(data.size()); i++)
             {
